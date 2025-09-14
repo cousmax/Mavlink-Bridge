@@ -1,11 +1,18 @@
 
-This directory is intended for PlatformIO Test Runner and project tests.
 
-Unit Testing is a software testing method by which individual units of
-source code, sets of one or more MCU program modules together with associated
-control data, usage procedures, and operating procedures, are tested to
-determine whether they are fit for use. Unit testing finds problems early
-in the development cycle.
+This directory is for PlatformIO and MicroPython tests for the Mavlink Bridge project.
 
-More information about PlatformIO Unit Testing:
-- https://docs.platformio.org/en/latest/advanced/unit-testing/index.html
+## How to Add Tests
+
+- For PlatformIO (C++), add test files for your bridge logic, MAVLink parsing, and hardware drivers.
+- For MicroPython, add test scripts to validate menu navigation, settings, and UDP-to-UART bridging.
+
+## Example Tests
+
+- See `test/test_main.cpp` for C++ examples.
+- See `micropython/test_menu.py` for MicroPython menu tests (if present).
+
+## Resources
+
+- PlatformIO Unit Testing: https://docs.platformio.org/en/latest/advanced/unit-testing/index.html
+- MicroPython testing: https://docs.micropython.org/en/latest/reference/unittest.html

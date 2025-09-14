@@ -1,43 +1,20 @@
 
-This directory is intended for project specific (private) libraries.
-PlatformIO will compile them to static libraries and link into the executable file.
 
-The source code of each library should be placed in a separate directory
-("lib/your_library_name/[Code]").
+This directory is for custom libraries used in the Mavlink Bridge project.
 
-For example, see the structure of the following example libraries `Foo` and `Bar`:
+## How to Add Libraries
 
-|--lib
-|  |
-|  |--Bar
-|  |  |--docs
-|  |  |--examples
-|  |  |--src
-|  |     |- Bar.c
-|  |     |- Bar.h
-|  |  |- library.json (optional. for custom build options, etc) https://docs.platformio.org/page/librarymanager/config.html
-|  |
-|  |--Foo
-|  |  |- Foo.c
-|  |  |- Foo.h
-|  |
-|  |- README --> THIS FILE
-|
-|- platformio.ini
-|--src
-   |- main.c
+- Place each library in its own folder under `lib/` (e.g., `lib/mavlink_parser/`).
+- Add source files and headers for your bridge logic, MAVLink protocol, or hardware drivers.
+- Use `library.json` for custom build options if needed.
 
-Example contents of `src/main.c` using Foo and Bar:
-```
-#include <Foo.h>
-#include <Bar.h>
+## Example
 
-int main (void)
-{
-  ...
-}
+- See `lib/mavlink_parser/` for MAVLink parsing code (if present).
 
-```
+## Resources
+
+- PlatformIO Library Manager: https://docs.platformio.org/page/librarymanager/index.html
 
 The PlatformIO Library Dependency Finder will find automatically dependent
 libraries by scanning project source files.
