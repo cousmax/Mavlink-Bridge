@@ -18,6 +18,7 @@ btn_select = machine.Pin(PIN_SELECT, machine.Pin.IN, machine.Pin.PULL_UP)
 # Initialize I2C and OLED
 i2c = machine.I2C(scl=machine.Pin(22), sda=machine.Pin(21))
 oled = ssd1306.SSD1306_I2C(128, 64, i2c)
+print("[MENU] OLED initialized")
 
 
 # Expanded menu options
@@ -66,15 +67,19 @@ def draw_wifi_icon(x, y, connected):
     oled.pixel(x, y+13, 1 if connected else 0)
 
 def show_wifi_status():
+    print("[MENU] Displaying WiFi status")
     wlan = network.WLAN(network.STA_IF)
     oled.fill(0)
     oled.text('WiFi Status:', 0, 0)
     draw_wifi_icon(110, 0, wlan.isconnected())
     if wlan.isconnected():
         ip = wlan.ifconfig()[0]
+        rssi = wlan.status('rssi')
+        print("[MENU] WiFi connected: IP={}, RSSI={}".format(ip, rssi))
         oled.text('Connected', 0, 16)
         oled.text(ip, 0, 28)
     else:
+        print("[MENU] WiFi not connected")
         oled.text('Not connected', 0, 16)
     oled.show()
 
@@ -106,26 +111,32 @@ def show_heartbeat():
 
 
 def show_signal_strength():
+    print("[MENU] Displaying WiFi signal strength")
     wlan = network.WLAN(network.STA_IF)
     oled.fill(0)
     oled.text('WiFi Signal:', 0, 0)
     if wlan.isconnected():
         try:
             rssi_val = wlan.status('rssi')
+            print("[MENU] WiFi RSSI: {}".format(rssi_val))
             oled.text('RSSI: {}'.format(rssi_val), 0, 16)
-        except:
+        except Exception as e:
+            print("[MENU] Error getting RSSI:", e)
             oled.text('RSSI N/A', 0, 16)
     else:
+        print("[MENU] WiFi not connected for RSSI check")
         oled.text('Not connected', 0, 16)
     oled.show()
 
 def start_captive_portal():
+    print("[MENU] Starting captive portal from menu")
     oled.fill(0)
     oled.text('Starting portal...', 0, 0)
     oled.show()
     import captive_portal
 
 def show_bridge_status():
+    print("[MENU] Displaying bridge status")
     oled.fill(0)
     oled.text('Bridge running', 0, 0)
     oled.show()
@@ -181,10 +192,12 @@ def load_settings():
         return 57600, 14550
 
 def save_settings(uart_baud, udp_port):
+    print("[MENU] Saving settings: UART={}, UDP={}".format(uart_baud, udp_port))
     with open('settings.json', 'w') as f:
         ujson.dump({'uart_baud': uart_baud, 'udp_port': udp_port}, f)
 
 uart_baud, udp_port = load_settings()
+print("[MENU] Settings loaded: UART={}, UDP={}".format(uart_baud, udp_port))
 
 
 def show_settings():
@@ -233,7 +246,9 @@ def next_port(current):
     return ports[(idx + 1) % len(ports)]
 
 def show_ota_update():
+    print("[MENU] OTA update selected")
     ip = network.WLAN(network.STA_IF).ifconfig()[0]
+    print("[MENU] Device IP for OTA: {}".format(ip))
     oled.fill(0)
     oled.text('OTA Update Mode', 0, 0)
     oled.text('1. On your PC:', 0, 12)
@@ -255,9 +270,11 @@ def show_ota_update():
     oled.text('Rebooting for OTA...', 0, 24)
     oled.show()
     time.sleep(2)
+    print("[MENU] Rebooting for OTA mode...")
     machine.reset()
 
 def handle_select():
+    print("[MENU] Menu item {} selected".format(selected))
     if selected == 0:
         show_wifi_status()
     elif selected == 1:
